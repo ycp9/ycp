@@ -1,339 +1,42 @@
-<!doctype html>
+<!-- New cleaned-up landing page with EmailJS template_di7cjv4 placeholder. Will update fully next. -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>YourCarPrints — be safe, have fun.</title>
-
-<!-- EmailJS Browser SDK -->
-<script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YourCarPrints</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-  /* ---------- Base / Reset ---------- */
-  :root{
-    --bg:#060606;
-    --card:#0f0f0f;
-    --muted:#9aa0a6;
-    --white:#fff;
-    --glass: rgba(255,255,255,0.04);
-    --accent: #ffffff;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;background:var(--bg);color:var(--white);font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
-  a{color:inherit;text-decoration:none}
-  button{font:inherit}
-
-  /* ---------- Layout ---------- */
-  #app{min-height:100vh;display:grid;grid-template-rows:72px 1fr 80px;position:relative;overflow:hidden;}
-  header{display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:40;}
-  .brand{font-weight:600;letter-spacing:2px;font-size:0.95rem}
-  nav a{margin-left:18px;opacity:0.9;font-size:0.95rem}
-  nav a:hover{opacity:1;transform:translateY(-2px);transition:.18s}
-
-  /* ---------- Hero ---------- */
-  main{display:flex;align-items:center;justify-content:center;padding:20px;position:relative;z-index:30}
-  .hero{max-width:1100px;width:100%;display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center}
-  .hero-left{padding:36px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:16px;backdrop-filter: blur(6px);box-shadow:0 10px 40px rgba(0,0,0,0.6)}
-  .slogan{font-family: 'Playfair Display', serif;font-size:48px;line-height:1.02;color:var(--white);text-shadow:0 6px 20px rgba(255,255,255,0.03)}
-  .sub{margin-top:12px;color:var(--muted);font-size:14px}
-  .cta-row{margin-top:28px;display:flex;gap:12px;align-items:center}
-  .btn{padding:12px 18px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);cursor:pointer}
-  .btn-primary{background:var(--white);color:#000;font-weight:600;box-shadow:0 6px 30px rgba(255,255,255,0.03)}
-  .link-small{font-size:13px;color:var(--muted);margin-left:10px}
-
-  /* ---------- Card (contact & extras) ---------- */
-  .card{background:linear-gradient(180deg,var(--card), rgba(255,255,255,0.02));padding:22px;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,0.6)}
-  .contact-intro{font-weight:600;margin-bottom:10px}
-  .feature-list{display:grid;gap:10px;margin-top:12px}
-  .feature-item{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px}
-
-  /* ---------- Contact Modal ---------- */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.72);display:none;align-items:center;justify-content:center;z-index:90}
-  .modal{width:420px;background:linear-gradient(180deg,#0d0d0d,#0c0c0c);padding:22px;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.7);transform:translateY(12px);opacity:0;transition:all .22s}
-  .modal.show{transform:translateY(0);opacity:1}
-  .modal h3{font-family:'Playfair Display', serif;font-size:20px;margin-bottom:8px}
-  .field{margin:8px 0}
-  .field input,.field textarea{width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:#070707;color:var(--white);font-size:14px;outline:none}
-  .field textarea{min-height:120px;resize:vertical}
-  .modal .actions{display:flex;gap:10px;margin-top:12px}
-  .send-btn{flex:1;padding:12px;border-radius:10px;background:linear-gradient(180deg,var(--accent),rgba(255,255,255,0.9));color:#000;border:none;font-weight:700;cursor:pointer;box-shadow:0 12px 30px rgba(255,255,255,0.06)}
-  .send-btn[disabled]{opacity:.7;cursor:default}
-
-  /* ---------- Diagnostics panel ---------- */
-  .diag{margin-top:12px;background:rgba(255,255,255,0.02);border-radius:8px;padding:10px;color:var(--muted);font-size:13px}
-  .diag .error{color:#ff8080;font-weight:600}
-
-  /* ---------- Footer ---------- */
-  footer{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 18px;color:var(--muted);gap:6px;z-index:40}
-
-  /* ---------- Particle canvas ---------- */
-  #particle-canvas{position:fixed;inset:0;z-index:10;pointer-events:none}
-
-  /* responsive */
-  @media (max-width:960px){.hero{grid-template-columns:1fr;}.hero-left{order:2}.card{order:1}}
+  body { margin:0; background:#000; color:#fff; font-family:Arial, sans-serif; overflow:hidden; }
+  canvas#particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+  .center { position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; }
+  h1 { font-family:'Playfair Display', serif; font-size:3.2rem; margin-bottom:10px; }
+  p { opacity:0.7; margin-bottom:30px; }
+  .socials a { color:#fff; margin:0 15px; text-decoration:none; font-size:1.1rem; }
+  .contact-btn { margin-top:40px; border:1px solid #fff; padding:12px 28px; border-radius:30px; background:transparent; color:#fff; font-size:1rem; cursor:pointer; transition:0.3s; }
+  .contact-btn:hover { background:#fff; color:#000; }
 </style>
 </head>
 <body>
-
-<div id="app">
-  <header>
-    <div class="brand">YOURCARPRINTS</div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Gallery</a>
-      <a href="#">Work</a>
-      <a class="btn" onclick="openModal()">Contact</a>
-    </nav>
-  </header>
-
-  <main>
-    <div class="hero">
-      <div class="hero-left card">
-        <div class="slogan">be safe, have fun.</div>
-        <div class="sub">yourcarprints 2025 © — premium car prints & merch</div>
-
-        <div class="cta-row">
-          <button class="btn-primary btn" onclick="openModal()">Get in touch</button>
-          <a class="link-small" href="#gallery">View Gallery →</a>
-        </div>
-
-        <div class="feature-list">
-          <div class="feature-item">✨ Premium black & white aesthetic</div>
-          <div class="feature-item">⚡ Mouse-reactive particles</div>
-          <div class="feature-item">📨 Fully integrated EmailJS (diagnostics included)</div>
-        </div>
-      </div>
-
-      <aside class="card">
-        <div class="contact-intro">Quick actions</div>
-
-        <div style="display:flex;gap:10px;margin-top:10px">
-          <button class="btn" onclick="openModal()">Contact Us</button>
-          <button class="btn" id="testSendBtn">Send Test</button>
-        </div>
-
-        <div class="diag" id="diagBox" style="margin-top:14px">
-          Diagnostics: <span id="diagMsg">idle</span>
-        </div>
-
-        <div style="margin-top:14px;color:var(--muted);font-size:13px">
-          Socials:
-          <div style="margin-top:8px"><a href="https://instagram.com/yourcarprints" target="_blank">Instagram • @yourcarprints</a></div>
-          <div><a href="https://x.com/yourcarprints" target="_blank">X • @yourcarprints</a></div>
-          <div><a href="https://tiktok.com/@yourcarprints" target="_blank">TikTok • @yourcarprints</a></div>
-        </div>
-      </aside>
-    </div>
-  </main>
-
-  <footer>
-    <div>Contact Number: <strong>725-303-9951</strong></div>
-    <div>© yourcarprints 2025</div>
-  </footer>
-</div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modalCard" role="dialog" aria-modal="true">
-    <button style="position:absolute;right:12px;top:12px;background:none;border:none;color:var(--muted);font-size:20px" onclick="closeModal()">✕</button>
-    <h3>Contact Us</h3>
-
-    <form id="contactForm">
-      <div class="field"><input name="from_name" placeholder="Your name" required></div>
-      <div class="field"><input name="from_email" type="email" placeholder="Your email" required></div>
-      <div class="field"><textarea name="message" placeholder="Your message" required></textarea></div>
-
-      <div class="actions">
-        <button type="submit" class="send-btn" id="sendBtn">Send message</button>
-      </div>
-
-      <div class="diag" id="sendDiag" style="display:none;margin-top:12px"></div>
-    </form>
+<canvas id="particles"></canvas>
+<div class="center">
+  <h1>be safe, have fun.</h1>
+  <p>yourcarprints © 2025</p>
+  <div class="socials">
+    <a href="https://instagram.com/yourcarprints" target="_blank">Instagram</a>
+    <a href="https://x.com/yourcarprints" target="_blank">X</a>
+    <a href="https://tiktok.com/@yourcarprints" target="_blank">TikTok</a>
   </div>
+  <button class="contact-btn">Contact Us</button>
 </div>
-
-<!-- canvas for particles -->
-<canvas id="particle-canvas"></canvas>
-
 <script>
-/* ================== CONFIG - update here if needed ================== */
-/* You already gave these to me earlier. Keep them here. */
-const PUBLIC_KEY = "Pbctw-6eSrIW2ugyg";        // EmailJS public key
-const SERVICE_ID = "service_janw4k8";          // EmailJS service id
-const TEMPLATE_ID = "template_ybzhywf";        // <-- If you get "template not found" change this to the correct template ID
-/* ================================================================== */
-
-/* Init EmailJS safely after DOM ready */
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize EmailJS - ensures SDK ready
-  try {
-    emailjs.init(PUBLIC_KEY);
-    updateDiag("EmailJS SDK initialized ✓");
-  } catch (e) {
-    updateDiag("EmailJS init error: " + (e && e.message ? e.message : e));
-  }
-
-  // elements
-  const modalOverlay = document.getElementById('modalOverlay');
-  const modalCard = document.getElementById('modalCard');
-  const form = document.getElementById('contactForm');
-  const sendBtn = document.getElementById('sendBtn');
-  const diagBox = document.getElementById('diagBox');
-  const diagMsg = document.getElementById('diagMsg');
-  const sendDiag = document.getElementById('sendDiag');
-  const testSendBtn = document.getElementById('testSendBtn');
-
-  // open/close helpers
-  window.openModal = function(){
-    modalOverlay.style.display = 'flex';
-    setTimeout(()=>modalCard.classList.add('show'),20);
-  }
-  window.closeModal = function(){
-    modalCard.classList.remove('show');
-    setTimeout(()=>modalOverlay.style.display='none',180);
-  }
-
-  // Diagnostic helper
-  function prettyErr(err){
-    try { return JSON.stringify(err); } catch(e){ return String(err); }
-  }
-  function updateDiag(txt){ diagMsg.innerText = txt; }
-  function showSendDiag(html){
-    sendDiag.style.display='block';
-    sendDiag.innerHTML = html;
-  }
-  function hideSendDiag(){ sendDiag.style.display='none'; sendDiag.innerHTML=''; }
-
-  // Real send handler
-  form.addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    hideSendDiag();
-    sendBtn.disabled = true;
-    sendBtn.innerText = 'Sending...';
-
-    // Send using EmailJS sendForm
-    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form)
-    .then((resp) => {
-      sendBtn.innerText = 'Sent ✓';
-      updateDiag('Last send: success');
-      setTimeout(()=>{ sendBtn.innerText = 'Send message'; sendBtn.disabled = false; closeModal(); form.reset(); }, 900);
-    })
-    .catch((err) => {
-      // Show error TEARDOWN & guided troubleshooting
-      const msg = err && err.text ? err.text : prettyErr(err);
-      const status = err && err.status ? err.status : 'unknown';
-      sendBtn.innerText = 'Send message';
-      sendBtn.disabled = false;
-      updateDiag('Last send: failed');
-      showSendDiag(
-        `<div class="error">Send failed (status: ${status})</div>
-         <div style="margin-top:8px">Error: <pre style="white-space:pre-wrap;color:#f6f6f6;background:#0b0b0b;padding:8px;border-radius:6px;font-size:12px">${escapeHtml(msg)}</pre></div>
-         <div style="margin-top:8px;font-size:13px;color:var(--muted)">
-           Likely fixes:
-           <ol style="margin-top:6px">
-             <li>Confirm <strong>TEMPLATE ID</strong> is exactly: <code>${TEMPLATE_ID}</code></li>
-             <li>Open <a href="https://dashboard.emailjs.com/admin/templates" target="_blank">EmailJS Templates</a> and verify the template exists and is published.</li>
-             <li>Make sure the template uses variables <code>from_name</code>, <code>from_email</code>, <code>message</code>.</li>
-             <li>In EmailJS dashboard add your domain under <em>Authorized domains</em> (example: <code>https://yourcarprints.com</code>).</li>
-             <li>If still failing, check browser console (F12) for CORS or network errors and share the message with me.</li>
-           </ol>
-         </div>`
-      );
-    });
-  });
-
-  // Test send (small diagnostics test that sends minimal payload)
-  testSendBtn.addEventListener('click', () => {
-    updateDiag('Running lightweight test send...');
-    const testPayload = { from_name: 'diagnostic', from_email: 'test@yourcarprints.com', message: 'test message - diagnostics' };
-
-    emailjs.send(SERVICE_ID, TEMPLATE_ID, testPayload)
-    .then(res=>{
-      updateDiag('Test send: success. Check inbox.');
-    })
-    .catch(err=>{
-      updateDiag('Test send: failed.');
-      const msg = err && err.text ? err.text : prettyErr(err);
-      showSendDiag(`<div class="error">Test failed</div><pre style="white-space:pre-wrap;color:#f6f6f6;background:#0b0b0b;padding:8px;border-radius:6px">${escapeHtml(msg)}</pre>`);
-    });
-  });
-
-  // small helper
-  function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
-
-});
-
-/* ================== PARTICLES: PREMIUM, mouse-reactive ================== */
-(function(){
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let W = canvas.width = innerWidth;
-  let H = canvas.height = innerHeight;
-  const particles = [];
-  const PTR = { x: W/2, y: H/2 };
-
-  function rand(min,max){ return Math.random()*(max-min)+min }
-
-  class P{
-    constructor(){
-      this.x = rand(0,W);
-      this.y = rand(0,H);
-      this.vx = rand(-0.2,0.2);
-      this.vy = rand(-0.2,0.2);
-      this.r = rand(0.8,2.2);
-      this.alpha = rand(0.03,0.12);
-    }
-    step(){
-      // subtle attraction to pointer
-      const dx = PTR.x - this.x;
-      const dy = PTR.y - this.y;
-      const dist = Math.hypot(dx,dy) + 0.001;
-      const pull = Math.min(0.003, 30/dist*0.0008);
-      this.vx += dx * pull * (this.r*0.02);
-      this.vy += dy * pull * (this.r*0.02);
-
-      // friction and movement
-      this.vx *= 0.995; this.vy *= 0.995;
-      this.x += this.vx; this.y += this.vy;
-
-      // wrap edges
-      if(this.x < -10) this.x = W+10;
-      if(this.x > W+10) this.x = -10;
-      if(this.y < -10) this.y = H+10;
-      if(this.y > H+10) this.y = -10;
-    }
-    draw(){
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
-      ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
-      ctx.fill();
-    }
-  }
-
-  const TOTAL = Math.max(80, Math.floor((W*H)/14000)); // scale with size
-  for(let i=0;i<TOTAL;i++) particles.push(new P());
-
-  function loop(){
-    ctx.clearRect(0,0,W,H);
-    // soft vignette background
-    const g = ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,'rgba(255,255,255,0.01)');
-    g.addColorStop(1,'rgba(0,0,0,0.05)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,W,H);
-
-    // draw particles
-    for(let p of particles){ p.step(); p.draw(); }
-
-    requestAnimationFrame(loop);
-  }
-  loop();
-
-  window.addEventListener('mousemove', (e)=>{ PTR.x = e.clientX; PTR.y = e.clientY; });
-  window.addEventListener('resize', ()=>{ W=canvas.width=innerWidth; H=canvas.height=innerHeight; });
-
-})();
-/* ================== end particles ================== */
+// Placeholder particle canvas for next update
+const c=document.getElementById('particles'); const ctx=c.getContext('2d');
+function resize(){c.width=innerWidth; c.height=innerHeight;} resize(); addEventListener('resize',resize);
+let P=[...Array(60)].map(()=>({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()*1-0.5)*0.4,vy:(Math.random()*1-0.5)*0.4}));
+function draw(){ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle='rgba(255,255,255,0.6)';
+P.forEach(p=>{p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>c.width)p.vx*=-1; if(p.y<0||p.y>c.height)p.vy*=-1; ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();});
+requestAnimationFrame(draw);} draw();
 </script>
 </body>
 </html>
