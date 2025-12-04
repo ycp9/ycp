@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YourCarPrints 2025</title>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init({ publicKey: "Pbctw-6eSrIW2ugyg" });
+        })();
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* disable highlighting */
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: "Poppins", sans-serif;
+            color: white;
+        }
+
+        /* Prevent inspect hotkeys (not bulletproof but stops casual users) */
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* MAIN CENTER TEXT */
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 3;
+        }
+
+        .title {
+            font-size: 4rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            margin-top: 8px;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* NAV BAR */
+        .navbar {
+            width: 100%;
+            padding: 20px 40px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links a {
+            margin-left: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .nav-links a:hover {
+            opacity: 0.4;
+        }
+
+        /* SOCIALS */
+        .socials {
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 110px;
+            z-index: 4;
+        }
+
+        .socials a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1rem;
+            opacity: 0.85;
+            transition: 0.2s;
+        }
+
+        .socials a:hover {
+            opacity: 1;
+        }
+
+        /* PHONE NUMBER */
+        .phone {
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 70px;
+            font-size: 1rem;
+            opacity: 0.75;
+        }
+
+        /* COPYRIGHT */
+        .copyright {
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 30px;
+            opacity: 0.5;
+            font-size: 0.85rem;
+        }
+
+        /* CONTACT POPUP */
+        .contact-popup-bg {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 99;
+            backdrop-filter: blur(4px);
+        }
+
+        .contact-popup {
+            width: 380px;
+            background: #111;
+            padding: 30px;
+            border-radius: 14px;
+            margin: 120px auto;
+            animation: popupFade 0.4s ease;
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
+        }
+
+        @keyframes popupFade {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .contact-popup h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .contact-popup input,
+        .contact-popup textarea {
+            width: 100%;
+            background: #000;
+            border: 1px solid #333;
+            padding: 12px;
+            margin-top: 10px;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .contact-popup button {
+            width: 100%;
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fff;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .contact-popup button:hover {
+            opacity: 0.5;
+        }
+
+        /* BUTTON (NAV) */
+        .contact-btn {
+            padding: 10px 20px;
+            border: 1px solid white;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        /* PARTICLE CANVAS */
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">YOURCARPRINTS</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Gallery</a>
+            <a href="#">About</a>
+            <span class="contact-btn" onclick="openPopup()">Contact Us</span>
+        </div>
+    </div>
+
+    <!-- CENTERED TEXT -->
+    <div class="centered">
+        <div class="title">be safe, have fun.</div>
+        <div class="subtitle">yourcarprints 2025 copyright</div>
+    </div>
+
+    <!-- SOCIALS -->
+    <div class="socials">
+        <a href="#">Instagram: @yourcarprints</a>
+        <a href="#">X: @yourcarprints</a>
+        <a href="#">Tiktok: @yourcarprints</a>
+    </div>
+
+    <!-- PHONE NUMBER -->
+    <div class="phone">Contact Number: 725-303-9951</div>
+
+    <!-- COPYRIGHT -->
+    <div class="copyright">© yourcarprints 2025</div>
+
+    <!-- PARTICLES CANVAS -->
+    <canvas id="particles"></canvas>
+
+    <!-- CONTACT POPUP -->
+    <div class="contact-popup-bg" id="popupBg">
+        <div class="contact-popup">
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <input name="from_name" placeholder="Your Name" required>
+                <input name="from_email" placeholder="Your Email" type="email" required>
+                <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit" id="sendBtn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+<script>
+// OPEN/CLOSE POPUP
+function openPopup() {
+    document.getElementById("popupBg").style.display = "block";
+}
+function closePopup() {
+    document.getElementById("popupBg").style.display = "none";
+}
+
+// EMAILJS SEND
+const form = document.getElementById("contactForm");
+const sendBtn = document.getElementById("sendBtn");
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    sendBtn.innerText = "Sending...";
+    sendBtn.disabled = true;
+
+    emailjs
+        .sendForm(
+            "service_janw4k8",
+            "template_ybzhywf",
+            form
+        )
+        .then(() => {
+            sendBtn.innerText = "Sent ✔";
+            setTimeout(() => {
+                sendBtn.innerText = "Send Message";
+                sendBtn.disabled = false;
+                closePopup();
+                form.reset();
+            }, 1500);
+        })
+        .catch((err) => {
+            alert("Failed to send email. Error: " + JSON.stringify(err));
+            sendBtn.innerText = "Send Message";
+            sendBtn.disabled = false;
+        });
+});
+
+// PARTICLE EFFECT (MOUSE REACTIVE)
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+let mouse = { x: null, y: null };
+
+window.addEventListener("mousemove", (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+});
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.speedY = (Math.random() - 0.5) * 0.4;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        let dx = this.x - mouse.x;
+        let dy = this.y - mouse.y;
+        let distance = Math.hypot(dx, dy);
+
+        if (distance < 120) {
+            this.x += dx / distance;
+            this.y += dy / distance;
+        }
+
+        if (this.x < 0) this.x = canvas.width;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.y < 0) this.y = canvas.height;
+        if (this.y > canvas.height) this.y = 0;
+    }
+
+    draw() {
+        ctx.fillStyle = "rgba(255,255,255,0.5)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    for (let i = 0; i < 150; i++) {
+        particles.push(new Particle());
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p) => {
+        p.update();
+        p.draw();
+    });
+    requestAnimationFrame(animate);
+}
+
+initParticles();
+animate();
+</script>
+
+</body>
+</html>
