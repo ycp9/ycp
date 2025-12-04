@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #000;
             color: #fff;
             overflow-x: hidden;
@@ -40,8 +40,7 @@
 
         /* Header */
         header {
-            padding: 40px 0;
-            border-bottom: 1px solid #333;
+            padding: 30px 0;
         }
 
         .header-content {
@@ -51,78 +50,77 @@
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
         .social-links {
             display: flex;
-            gap: 24px;
+            gap: 20px;
         }
 
         .social-links a {
             color: #fff;
             text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-            text-transform: uppercase;
+            font-size: 13px;
+            transition: color 0.3s ease;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .social-links a:hover {
-            color: #00d4ff;
+            color: #fff;
+            opacity: 0.7;
         }
 
         /* Hero */
         .hero {
-            min-height: 70vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 20px;
         }
 
         .hero h1 {
-            font-size: clamp(48px, 10vw, 120px);
+            font-size: clamp(64px, 12vw, 100px);
             font-weight: 900;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
-            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+            line-height: 1;
         }
 
         .tagline {
-            font-size: 32px;
+            font-size: clamp(28px, 6vw, 42px);
             font-weight: 300;
-            margin-bottom: 60px;
-            letter-spacing: 1px;
-            color: #ccc;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            color: #fff;
         }
 
         .cta-button {
             background: #fff;
             color: #000;
             border: none;
-            padding: 16px 48px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 14px 42px;
+            font-size: 13px;
+            font-weight: 700;
             letter-spacing: 2px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             text-transform: uppercase;
-            border-radius: 2px;
+            border-radius: 0;
         }
 
         .cta-button:hover {
-            background: #00d4ff;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
-        }
-
-        .cta-button:active {
-            transform: translateY(0);
+            background: #000;
+            color: #fff;
+            border: 2px solid #fff;
+            padding: 12px 40px;
         }
 
         /* Modal */
@@ -134,179 +132,205 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(5px);
         }
 
         .modal.active {
             display: flex;
             justify-content: center;
             align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
             background: #000;
             border: 1px solid #333;
-            padding: 60px;
-            border-radius: 4px;
+            padding: 50px;
             width: 90%;
-            max-width: 500px;
+            max-width: 450px;
             position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .close {
             position: absolute;
-            right: 30px;
-            top: 30px;
-            font-size: 32px;
+            right: 25px;
+            top: 25px;
+            font-size: 28px;
             font-weight: 300;
             cursor: pointer;
             color: #fff;
-            transition: color 0.3s;
+            transition: opacity 0.3s;
         }
 
         .close:hover {
-            color: #00d4ff;
+            opacity: 0.6;
         }
 
         .modal h2 {
-            font-size: 28px;
-            margin-bottom: 30px;
+            font-size: 24px;
+            margin-bottom: 25px;
             font-weight: 700;
             letter-spacing: 1px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
             color: #999;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 12px;
+            padding: 11px 12px;
             background: #111;
             border: 1px solid #333;
             color: #fff;
             font-family: inherit;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            font-size: 13px;
+            transition: border-color 0.3s ease;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #00d4ff;
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+            border-color: #fff;
         }
 
         .form-group textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 100px;
         }
 
         .submit-btn {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: #fff;
             color: #000;
             border: none;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 2px;
             cursor: pointer;
             text-transform: uppercase;
-            font-size: 14px;
-            transition: all 0.3s;
-            margin-top: 20px;
-            border-radius: 2px;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            border-radius: 0;
         }
 
         .submit-btn:hover:not(:disabled) {
-            background: #00d4ff;
-            transform: translateY(-2px);
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
         }
 
         .submit-btn:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
         }
 
         .status-message {
-            margin-top: 16px;
-            padding: 12px;
+            margin-top: 12px;
+            padding: 10px;
             text-align: center;
-            font-size: 14px;
-            border-radius: 2px;
+            font-size: 12px;
             display: none;
+            letter-spacing: 0.5px;
         }
 
         .status-message.success {
-            background: rgba(0, 212, 255, 0.1);
-            color: #00d4ff;
-            border: 1px solid #00d4ff;
+            color: #fff;
             display: block;
         }
 
         .status-message.error {
-            background: rgba(255, 100, 100, 0.1);
-            color: #ff6464;
-            border: 1px solid #ff6464;
+            color: #ff6666;
             display: block;
         }
 
         /* Footer */
         footer {
-            border-top: 1px solid #333;
-            padding: 40px 0;
-            margin-top: 100px;
+            padding: 30px 0;
             text-align: center;
             color: #666;
-            font-size: 14px;
+            font-size: 11px;
+            letter-spacing: 1px;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 20px;
+            header {
+                padding: 20px 0;
             }
 
-            .modal-content {
-                padding: 40px 30px;
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .social-links {
+                gap: 15px;
+                font-size: 11px;
             }
 
             .hero {
-                min-height: 60vh;
-                padding: 60px 20px;
+                min-height: 80vh;
+                padding: 40px 20px;
             }
 
             .hero h1 {
                 font-size: 48px;
+                margin-bottom: 8px;
             }
 
             .tagline {
                 font-size: 24px;
+                margin-bottom: 30px;
             }
 
-            .social-links {
-                gap: 16px;
+            .modal-content {
+                padding: 35px 25px;
+                max-width: 90%;
             }
 
-            .social-links a {
-                font-size: 12px;
+            .close {
+                right: 20px;
+                top: 20px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Snow canvas for Christmas particles -->
     <canvas id="snowCanvas"></canvas>
 
     <div class="container">
@@ -322,9 +346,9 @@
             </div>
         </header>
 
-        <!-- Hero -->
+        <!-- Hero Section -->
         <section class="hero">
-            <h1>🎄 YOUR CAR PRINTS 🎄</h1>
+            <h1>YOUR CAR PRINTS</h1>
             <p class="tagline">Be Safe, Have Fun.</p>
             <button class="cta-button" id="contactBtn">Get In Touch</button>
         </section>
@@ -336,11 +360,11 @@
                 <h2>Let's Connect</h2>
                 <form id="contactForm">
                     <div class="form-group">
-                        <label for="name">Your Name</label>
+                        <label for="name">Name</label>
                         <input type="text" id="name" name="from_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email Address</label>
+                        <label for="email">Email</label>
                         <input type="email" id="email" name="from_email" required>
                     </div>
                     <div class="form-group">
@@ -360,7 +384,6 @@
     </div>
 
     <script>
-        // Initialize EmailJS
         emailjs.init("YOUR_PUBLIC_KEY_HERE");
 
         // Modal functionality
@@ -373,31 +396,34 @@
 
         contactBtn.addEventListener("click", () => {
             modal.classList.add("active");
+            document.body.style.overflow = "hidden";
         });
 
-        closeModal.addEventListener("click", () => {
+        function closeContactModal() {
             modal.classList.remove("active");
+            document.body.style.overflow = "auto";
             contactForm.reset();
             statusMessage.textContent = "";
             statusMessage.className = "status-message";
-        });
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send Message";
+        }
+
+        closeModal.addEventListener("click", closeContactModal);
 
         window.addEventListener("click", (e) => {
             if (e.target === modal) {
-                modal.classList.remove("active");
-                contactForm.reset();
-                statusMessage.textContent = "";
-                statusMessage.className = "status-message";
+                closeContactModal();
             }
         });
 
-        // Form submission
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
             submitBtn.disabled = true;
             submitBtn.textContent = "Sending...";
             statusMessage.className = "status-message";
+            statusMessage.textContent = "";
 
             try {
                 const response = await emailjs.sendForm(
@@ -406,25 +432,19 @@
                     contactForm
                 );
 
-                statusMessage.textContent = "Message sent successfully! We'll get back to you soon.";
+                statusMessage.textContent = "Message sent! We'll get back to you soon.";
                 statusMessage.classList.add("success");
-                contactForm.reset();
 
-                setTimeout(() => {
-                    modal.classList.remove("active");
-                    statusMessage.className = "status-message";
-                }, 3000);
+                setTimeout(closeContactModal, 2500);
             } catch (error) {
                 console.error("EmailJS error:", error);
-                statusMessage.textContent = "Failed to send message. Please try again.";
+                statusMessage.textContent = "Error sending message. Please try again.";
                 statusMessage.classList.add("error");
-            } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Send Message";
             }
         });
 
-        // Snow particles
         const canvas = document.getElementById("snowCanvas");
         const ctx = canvas.getContext("2d");
 
@@ -437,19 +457,23 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height - canvas.height;
-                this.radius = Math.random() * 3 + 2;
-                this.velocity = Math.random() * 1 + 0.5;
-                this.opacity = Math.random() * 0.5 + 0.5;
+                this.radius = Math.random() * 2 + 1;
+                this.velocity = Math.random() * 0.8 + 0.3;
+                this.opacity = Math.random() * 0.6 + 0.3;
+                this.drift = Math.random() * 0.2 - 0.1;
             }
 
             update() {
                 this.y += this.velocity;
-                this.x += Math.sin(this.y * 0.01) * 0.5;
+                this.x += this.drift;
 
                 if (this.y > canvas.height) {
                     this.y = -10;
                     this.x = Math.random() * canvas.width;
                 }
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
             }
 
             draw() {
@@ -461,7 +485,7 @@
         }
 
         // Create snowflakes
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 80; i++) {
             snowflakes.push(new Snowflake());
         }
 
