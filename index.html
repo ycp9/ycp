@@ -1,42 +1,33 @@
-<!-- New cleaned-up landing page with EmailJS template_di7cjv4 placeholder. Will update fully next. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>YourCarPrints</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<style>
-  body { margin:0; background:#000; color:#fff; font-family:Arial, sans-serif; overflow:hidden; }
-  canvas#particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
-  .center { position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; }
-  h1 { font-family:'Playfair Display', serif; font-size:3.2rem; margin-bottom:10px; }
-  p { opacity:0.7; margin-bottom:30px; }
-  .socials a { color:#fff; margin:0 15px; text-decoration:none; font-size:1.1rem; }
-  .contact-btn { margin-top:40px; border:1px solid #fff; padding:12px 28px; border-radius:30px; background:transparent; color:#fff; font-size:1rem; cursor:pointer; transition:0.3s; }
-  .contact-btn:hover { background:#fff; color:#000; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YourCarPrints</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
-<canvas id="particles"></canvas>
-<div class="center">
-  <h1>be safe, have fun.</h1>
-  <p>yourcarprints © 2025</p>
-  <div class="socials">
-    <a href="https://instagram.com/yourcarprints" target="_blank">Instagram</a>
-    <a href="https://x.com/yourcarprints" target="_blank">X</a>
-    <a href="https://tiktok.com/@yourcarprints" target="_blank">TikTok</a>
+  <div class="container">
+    <h1>YourCarPrints</h1>
+    <p class="subtitle">Upload your car. Get your custom shirt.</p>
+
+    <form id="orderForm">
+      <label>Name</label>
+      <input type="text" id="name" required>
+
+      <label>Email</label>
+      <input type="email" id="email" required>
+
+      <label>Car Image</label>
+      <input type="file" id="image" accept="image/*" required>
+
+      <button type="submit" class="btn">Send Order</button>
+    </form>
+
+    <div id="statusMsg"></div>
   </div>
-  <button class="contact-btn">Contact Us</button>
-</div>
-<script>
-// Placeholder particle canvas for next update
-const c=document.getElementById('particles'); const ctx=c.getContext('2d');
-function resize(){c.width=innerWidth; c.height=innerHeight;} resize(); addEventListener('resize',resize);
-let P=[...Array(60)].map(()=>({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()*1-0.5)*0.4,vy:(Math.random()*1-0.5)*0.4}));
-function draw(){ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle='rgba(255,255,255,0.6)';
-P.forEach(p=>{p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>c.width)p.vx*=-1; if(p.y<0||p.y>c.height)p.vy*=-1; ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();});
-requestAnimationFrame(draw);} draw();
-</script>
+
+  <script src="script.js"></script>
 </body>
 </html>
