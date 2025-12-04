@@ -1,33 +1,500 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YourCarPrints</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Prints & Merch - Premium Automotive Art</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --surface: #1a1a1a;
+            --border: #333333;
+            --text: #ffffff;
+            --text-muted: #b3b3b3;
+            --accent: #ff6b35;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-button:hover {
+            background: #ff5722;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+        }
+
+        .cta-button:hover {
+            background: #ff5722;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.3);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 6rem 0;
+        }
+
+        .gallery-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.15);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .gallery-info {
+            padding: 1.5rem;
+        }
+
+        .gallery-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .contact-section {
+            margin: 6rem 0;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .close-modal:hover {
+            color: var(--text);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.875rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: #ff5722;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+            text-align: left;
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            display: block;
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            display: block;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            margin-top: 6rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-section h2 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>YourCarPrints</h1>
-    <p class="subtitle">Upload your car. Get your custom shirt.</p>
+    <header>
+        <div class="header-content">
+            <div class="logo">🏁 CAR PRINTS</div>
+            <button class="nav-button" onclick="openContactModal()">Get in Touch</button>
+        </div>
+    </header>
 
-    <form id="orderForm">
-      <label>Name</label>
-      <input type="text" id="name" required>
+    <main>
+        <section class="hero">
+            <h1>Premium Automotive Art & Merch</h1>
+            <p>Stunning car prints and exclusive merchandise for automotive enthusiasts. Handcrafted quality for true petrolheads.</p>
+            <button class="cta-button" onclick="openContactModal()">Shop Now</button>
+        </section>
 
-      <label>Email</label>
-      <input type="email" id="email" required>
+        <section class="gallery">
+            <div class="gallery-item">
+                <div class="gallery-image">🏎️</div>
+                <div class="gallery-info">
+                    <h3>Classic Prints</h3>
+                    <p>Limited edition art prints of iconic vehicles</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">🎨</div>
+                <div class="gallery-info">
+                    <h3>Custom Designs</h3>
+                    <p>Personalized merch with your favorite cars</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">👕</div>
+                <div class="gallery-info">
+                    <h3>Apparel</h3>
+                    <p>Premium quality tees and hoodies</p>
+                </div>
+            </div>
+        </section>
 
-      <label>Car Image</label>
-      <input type="file" id="image" accept="image/*" required>
+        <section class="contact-section">
+            <h2>Let's Create Something Amazing</h2>
+            <p>Have a custom request or collaboration idea? We'd love to hear from you.</p>
+            <button class="cta-button" onclick="openContactModal()">Contact Us</button>
+        </section>
+    </main>
 
-      <button type="submit" class="btn">Send Order</button>
-    </form>
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeContactModal()">×</button>
+            <h2 style="margin-bottom: 1.5rem;">Get in Touch</h2>
+            
+            <div id="message" class="message"></div>
 
-    <div id="statusMsg"></div>
-  </div>
+            <form id="contactForm" onsubmit="sendEmail(event)">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required placeholder="John Doe">
+                </div>
 
-  <script src="script.js"></script>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="you@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message-text" name="message" required placeholder="Tell us about your project..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Car Prints & Merch. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/build/index.min.js"></script>
+    <script>
+        // Initialize EmailJS (replace with your public key)
+        emailjs.init("YOUR_PUBLIC_KEY_HERE");
+
+        function openContactModal() {
+            document.getElementById("contactModal").classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeContactModal() {
+            document.getElementById("contactModal").classList.remove("active");
+            document.body.style.overflow = "auto";
+            document.getElementById("contactForm").reset();
+            document.getElementById("message").className = "message";
+            document.getElementById("message").textContent = "";
+        }
+
+        function sendEmail(event) {
+            event.preventDefault();
+            const submitBtn = document.getElementById("submitBtn");
+            const messageDiv = document.getElementById("message");
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Sending...";
+
+            const params = {
+                from_name: document.getElementById("name").value,
+                from_email: document.getElementById("email").value,
+                message: document.getElementById("message-text").value,
+            };
+
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", params)
+                .then(() => {
+                    messageDiv.className = "message success";
+                    messageDiv.textContent = "✓ Message sent successfully! We'll get back to you soon.";
+                    document.getElementById("contactForm").reset();
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Send Message";
+
+                    setTimeout(closeContactModal, 3000);
+                })
+                .catch((error) => {
+                    messageDiv.className = "message error";
+                    messageDiv.textContent = "✗ Failed to send message. Please try again.";
+                    console.error("EmailJS error:", error);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Send Message";
+                });
+        }
+
+        // Close modal when clicking outside
+        document.getElementById("contactModal").addEventListener("click", (e) => {
+            if (e.target.id === "contactModal") {
+                closeContactModal();
+            }
+        });
+    </script>
 </body>
 </html>
