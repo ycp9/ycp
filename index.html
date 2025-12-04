@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Prints & Merch - Premium Automotive Art</title>
+    <title>Your Car Prints - Be Safe, Have Fun</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/build/es5/index.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -11,271 +12,200 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --bg: #0a0a0a;
-            --surface: #1a1a1a;
-            --border: #333333;
-            --text: #ffffff;
-            --text-muted: #b3b3b3;
-            --accent: #ff6b35;
-            --success: #10b981;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
             overflow-x: hidden;
+            position: relative;
         }
 
-        header {
-            position: sticky;
+        canvas {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 1.5rem 2rem;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 40px 0;
+            border-bottom: 1px solid #333;
         }
 
         .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 24px;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: 2px;
         }
 
-        .nav-button {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
+        .social-links {
+            display: flex;
+            gap: 24px;
         }
 
-        .nav-button:hover {
-            background: #ff5722;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        .social-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        .social-links a:hover {
+            color: #00d4ff;
         }
 
+        /* Hero */
         .hero {
-            min-height: 80vh;
+            min-height: 70vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 4rem 0;
+            padding: 80px 20px;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
+            font-size: clamp(48px, 10vw, 120px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
             line-height: 1.1;
         }
 
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            max-width: 600px;
+        .tagline {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 60px;
+            letter-spacing: 1px;
+            color: #ccc;
         }
 
         .cta-button {
-            background: var(--accent);
-            color: white;
+            background: #fff;
+            color: #000;
             border: none;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            border-radius: 6px;
-            cursor: pointer;
+            padding: 16px 48px;
+            font-size: 16px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            border-radius: 2px;
         }
 
         .cta-button:hover {
-            background: #ff5722;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.3);
+            background: #00d4ff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
         }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 6rem 0;
+        .cta-button:active {
+            transform: translateY(0);
         }
 
-        .gallery-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .gallery-item:hover {
-            border-color: var(--accent);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.15);
-        }
-
-        .gallery-image {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-
-        .gallery-info {
-            padding: 1.5rem;
-        }
-
-        .gallery-info h3 {
-            margin-bottom: 0.5rem;
-        }
-
-        .gallery-info p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .contact-section {
-            margin: 6rem 0;
-            text-align: center;
-        }
-
-        .contact-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact-section p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
             z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
         }
 
         .modal.active {
             display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .modal-content {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
+            background: #000;
+            border: 1px solid #333;
+            padding: 60px;
+            border-radius: 4px;
+            width: 90%;
             max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
             position: relative;
-            animation: slideUp 0.3s ease;
         }
 
-        @keyframes slideUp {
-            from {
-                transform: translateY(40px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .close-modal {
+        .close {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
+            right: 30px;
+            top: 30px;
+            font-size: 32px;
+            font-weight: 300;
             cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
+            color: #fff;
+            transition: color 0.3s;
         }
 
-        .close-modal:hover {
-            color: var(--text);
-            transform: rotate(90deg);
+        .close:hover {
+            color: #00d4ff;
+        }
+
+        .modal h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: #999;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.75rem;
-            border-radius: 6px;
+            padding: 12px;
+            background: #111;
+            border: 1px solid #333;
+            color: #fff;
             font-family: inherit;
-            font-size: 0.95rem;
-            transition: all 0.2s;
+            font-size: 14px;
+            transition: border-color 0.3s;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            border-color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
         }
 
         .form-group textarea {
@@ -285,19 +215,22 @@
 
         .submit-btn {
             width: 100%;
-            background: var(--accent);
-            color: white;
+            padding: 14px;
+            background: #fff;
+            color: #000;
             border: none;
-            padding: 0.875rem;
-            border-radius: 6px;
             font-weight: 600;
+            letter-spacing: 2px;
             cursor: pointer;
+            text-transform: uppercase;
+            font-size: 14px;
             transition: all 0.3s;
-            font-size: 1rem;
+            margin-top: 20px;
+            border-radius: 2px;
         }
 
         .submit-btn:hover:not(:disabled) {
-            background: #ff5722;
+            background: #00d4ff;
             transform: translateY(-2px);
         }
 
@@ -306,194 +239,250 @@
             cursor: not-allowed;
         }
 
-        .message {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            display: none;
-            text-align: left;
-        }
-
-        .message.success {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success);
-            color: var(--success);
-            display: block;
-        }
-
-        .message.error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            color: #fca5a5;
-            display: block;
-        }
-
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 2rem;
-            margin-top: 6rem;
+        .status-message {
+            margin-top: 16px;
+            padding: 12px;
             text-align: center;
-            color: var(--text-muted);
+            font-size: 14px;
+            border-radius: 2px;
+            display: none;
         }
 
+        .status-message.success {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            border: 1px solid #00d4ff;
+            display: block;
+        }
+
+        .status-message.error {
+            background: rgba(255, 100, 100, 0.1);
+            color: #ff6464;
+            border: 1px solid #ff6464;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #333;
+            padding: 40px 0;
+            margin-top: 100px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.25rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
             .header-content {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 20px;
             }
 
-            .gallery {
-                grid-template-columns: 1fr;
+            .modal-content {
+                padding: 40px 30px;
             }
 
-            .contact-section h2 {
-                font-size: 1.75rem;
+            .hero {
+                min-height: 60vh;
+                padding: 60px 20px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .tagline {
+                font-size: 24px;
+            }
+
+            .social-links {
+                gap: 16px;
+            }
+
+            .social-links a {
+                font-size: 12px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">🏁 CAR PRINTS</div>
-            <button class="nav-button" onclick="openContactModal()">Get in Touch</button>
-        </div>
-    </header>
+    <canvas id="snowCanvas"></canvas>
 
-    <main>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div class="logo">YOUR CAR PRINTS</div>
+                <div class="social-links">
+                    <a href="https://twitter.com/yourcarprints" target="_blank">Twitter</a>
+                    <a href="https://tiktok.com/@yourcarprints" target="_blank">TikTok</a>
+                    <a href="https://instagram.com/yourcarprints" target="_blank">Instagram</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero -->
         <section class="hero">
-            <h1>Premium Automotive Art & Merch</h1>
-            <p>Stunning car prints and exclusive merchandise for automotive enthusiasts. Handcrafted quality for true petrolheads.</p>
-            <button class="cta-button" onclick="openContactModal()">Shop Now</button>
+            <h1>🎄 YOUR CAR PRINTS 🎄</h1>
+            <p class="tagline">Be Safe, Have Fun.</p>
+            <button class="cta-button" id="contactBtn">Get In Touch</button>
         </section>
 
-        <section class="gallery">
-            <div class="gallery-item">
-                <div class="gallery-image">🏎️</div>
-                <div class="gallery-info">
-                    <h3>Classic Prints</h3>
-                    <p>Limited edition art prints of iconic vehicles</p>
-                </div>
+        <!-- Contact Modal -->
+        <div id="contactModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <h2>Let's Connect</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="from_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="from_email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+                    <div class="status-message" id="statusMessage"></div>
+                </form>
             </div>
-            <div class="gallery-item">
-                <div class="gallery-image">🎨</div>
-                <div class="gallery-info">
-                    <h3>Custom Designs</h3>
-                    <p>Personalized merch with your favorite cars</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-image">👕</div>
-                <div class="gallery-info">
-                    <h3>Apparel</h3>
-                    <p>Premium quality tees and hoodies</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="contact-section">
-            <h2>Let's Create Something Amazing</h2>
-            <p>Have a custom request or collaboration idea? We'd love to hear from you.</p>
-            <button class="cta-button" onclick="openContactModal()">Contact Us</button>
-        </section>
-    </main>
-
-    <div class="modal" id="contactModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeContactModal()">×</button>
-            <h2 style="margin-bottom: 1.5rem;">Get in Touch</h2>
-            
-            <div id="message" class="message"></div>
-
-            <form id="contactForm" onsubmit="sendEmail(event)">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" required placeholder="John Doe">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="you@example.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message-text" name="message" required placeholder="Tell us about your project..."></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
-            </form>
         </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Your Car Prints. All rights reserved.</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Car Prints & Merch. All rights reserved.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/build/index.min.js"></script>
     <script>
-        // Initialize EmailJS (replace with your public key)
+        // Initialize EmailJS
         emailjs.init("YOUR_PUBLIC_KEY_HERE");
 
-        function openContactModal() {
-            document.getElementById("contactModal").classList.add("active");
-            document.body.style.overflow = "hidden";
-        }
+        // Modal functionality
+        const modal = document.getElementById("contactModal");
+        const contactBtn = document.getElementById("contactBtn");
+        const closeModal = document.getElementById("closeModal");
+        const contactForm = document.getElementById("contactForm");
+        const statusMessage = document.getElementById("statusMessage");
+        const submitBtn = document.getElementById("submitBtn");
 
-        function closeContactModal() {
-            document.getElementById("contactModal").classList.remove("active");
-            document.body.style.overflow = "auto";
-            document.getElementById("contactForm").reset();
-            document.getElementById("message").className = "message";
-            document.getElementById("message").textContent = "";
-        }
+        contactBtn.addEventListener("click", () => {
+            modal.classList.add("active");
+        });
 
-        function sendEmail(event) {
-            event.preventDefault();
-            const submitBtn = document.getElementById("submitBtn");
-            const messageDiv = document.getElementById("message");
+        closeModal.addEventListener("click", () => {
+            modal.classList.remove("active");
+            contactForm.reset();
+            statusMessage.textContent = "";
+            statusMessage.className = "status-message";
+        });
+
+        window.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                modal.classList.remove("active");
+                contactForm.reset();
+                statusMessage.textContent = "";
+                statusMessage.className = "status-message";
+            }
+        });
+
+        // Form submission
+        contactForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
             submitBtn.disabled = true;
             submitBtn.textContent = "Sending...";
+            statusMessage.className = "status-message";
 
-            const params = {
-                from_name: document.getElementById("name").value,
-                from_email: document.getElementById("email").value,
-                message: document.getElementById("message-text").value,
-            };
+            try {
+                const response = await emailjs.sendForm(
+                    "YOUR_SERVICE_ID",
+                    "YOUR_TEMPLATE_ID",
+                    contactForm
+                );
 
-            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", params)
-                .then(() => {
-                    messageDiv.className = "message success";
-                    messageDiv.textContent = "✓ Message sent successfully! We'll get back to you soon.";
-                    document.getElementById("contactForm").reset();
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = "Send Message";
+                statusMessage.textContent = "Message sent successfully! We'll get back to you soon.";
+                statusMessage.classList.add("success");
+                contactForm.reset();
 
-                    setTimeout(closeContactModal, 3000);
-                })
-                .catch((error) => {
-                    messageDiv.className = "message error";
-                    messageDiv.textContent = "✗ Failed to send message. Please try again.";
-                    console.error("EmailJS error:", error);
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = "Send Message";
-                });
+                setTimeout(() => {
+                    modal.classList.remove("active");
+                    statusMessage.className = "status-message";
+                }, 3000);
+            } catch (error) {
+                console.error("EmailJS error:", error);
+                statusMessage.textContent = "Failed to send message. Please try again.";
+                statusMessage.classList.add("error");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Send Message";
+            }
+        });
+
+        // Snow particles
+        const canvas = document.getElementById("snowCanvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const snowflakes = [];
+
+        class Snowflake {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.radius = Math.random() * 3 + 2;
+                this.velocity = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+
+            update() {
+                this.y += this.velocity;
+                this.x += Math.sin(this.y * 0.01) * 0.5;
+
+                if (this.y > canvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
-        // Close modal when clicking outside
-        document.getElementById("contactModal").addEventListener("click", (e) => {
-            if (e.target.id === "contactModal") {
-                closeContactModal();
-            }
+        // Create snowflakes
+        for (let i = 0; i < 100; i++) {
+            snowflakes.push(new Snowflake());
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            snowflakes.forEach((snowflake) => {
+                snowflake.update();
+                snowflake.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
     </script>
 </body>
