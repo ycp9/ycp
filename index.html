@@ -1,550 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Car Prints - Be Safe, Have Fun</title>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/build/es5/index.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-user-select: none;
-            user-select: none;
-        }
+<script>
+    emailjs.init({
+        publicKey: "Pbctw-6eSrIW2ugyg",
+    });
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
+    function openContactModal() {
+        document.getElementById("contactModal").classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
-            color: #fff;
-            position: relative;
-        }
+    function closeContactModal() {
+        document.getElementById("contactModal").classList.remove("active");
+        document.body.style.overflow = "auto";
+        document.getElementById("contactForm").reset();
+        document.getElementById("statusMessage").textContent = "";
+        document.getElementById("statusMessage").className = "status-message";
+        document.getElementById("submitBtn").disabled = false;
+        document.getElementById("submitBtn").textContent = "Send Message";
+    }
 
-        body {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-        input, textarea {
-            -webkit-user-select: text !important;
-            user-select: text !important;
-        }
+        const submitBtn = document.getElementById("submitBtn");
+        const statusMessage = document.getElementById("statusMessage");
 
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+        statusMessage.className = "status-message";
+        statusMessage.textContent = "";
 
-        main {
-            position: relative;
-            z-index: 2;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
+        try {
+            await emailjs.sendForm(
+                "service_janw4k8",
+                "template_di7cjv4",
+                "#contactForm"
+            );
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            width: 100%;
-        }
+            statusMessage.textContent = "Message sent! We'll get back to you soon.";
+            statusMessage.classList.add("success");
 
-        header {
-            padding: 30px 0;
-            position: relative;
-            z-index: 10;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 25px;
-        }
-
-        .social-links a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 12px;
-            transition: color 0.3s ease;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            font-weight: 400;
-        }
-
-        .social-links a:hover {
-            color: #aaa;
-        }
-
-        .hero {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(56px, 10vw, 88px);
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            margin-bottom: 15px;
-            line-height: 1;
-        }
-
-        .tagline {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(24px, 5vw, 38px);
-            font-weight: 400;
-            margin-bottom: 50px;
-            letter-spacing: 2px;
-            color: #fff;
-        }
-
-        .cta-button {
-            background: #fff;
-            color: #000;
-            border: 2px solid #fff;
-            padding: 14px 48px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            text-transform: uppercase;
-            border-radius: 0;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .cta-button:hover {
-            background: #000;
-            color: #fff;
-            border: 2px solid #fff;
-        }
-
-        .cta-button:active {
-            transform: scale(0.97);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: #000;
-            border: 1px solid #333;
-            padding: 50px;
-            width: 90%;
-            max-width: 420px;
-            position: relative;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .close {
-            position: absolute;
-            right: 28px;
-            top: 28px;
-            font-size: 32px;
-            font-weight: 300;
-            cursor: pointer;
-            color: #fff;
-            transition: opacity 0.3s;
-            line-height: 1;
-        }
-
-        .close:hover {
-            opacity: 0.5;
-        }
-
-        .modal h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            margin-bottom: 30px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .form-group {
-            margin-bottom: 22px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
-            color: #888;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 14px;
-            background: #111;
-            border: 1px solid #333;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 13px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #fff;
-            background: #0a0a0a;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 110px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 13px;
-            background: #fff;
-            color: #000;
-            border: 2px solid #fff;
-            font-weight: 700;
-            letter-spacing: 2px;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 12px;
-            transition: all 0.4s ease;
-            margin-top: 20px;
-            border-radius: 0;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            background: #000;
-            color: #fff;
-            border: 2px solid #fff;
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .status-message {
-            margin-top: 14px;
-            padding: 12px;
-            text-align: center;
-            font-size: 12px;
-            display: none;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
-
-        .status-message.success {
-            color: #90ee90;
-            display: block;
-        }
-
-        .status-message.error {
-            color: #ff8888;
-            display: block;
-        }
-
-        footer {
-            padding: 20px 0;
-            text-align: center;
-            color: #666;
-            font-size: 11px;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 20px 0;
-            }
-
-            .header-content {
-                flex-direction: column;
-                gap: 18px;
-            }
-
-            .logo {
-                font-size: 14px;
-            }
-
-            .social-links {
-                gap: 18px;
-                font-size: 10px;
-            }
-
-            .hero {
-                padding: 30px 20px;
-            }
-
-            .hero h1 {
-                font-size: 48px;
-            }
-
-            .tagline {
-                font-size: 22px;
-                margin-bottom: 35px;
-            }
-
-            .modal-content {
-                padding: 40px 25px;
-                max-width: 90%;
-            }
-
-            .close {
-                right: 22px;
-                top: 22px;
-                font-size: 28px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <canvas id="snowCanvas"></canvas>
-
-    <main>
-        <div class="container">
-            <header>
-                <div class="header-content">
-                    <div class="logo">YOUR CAR PRINTS</div>
-                    <div class="social-links">
-                        <a href="https://twitter.com/yourcarprints" target="_blank">Twitter</a>
-                        <a href="https://tiktok.com/@yourcarprints" target="_blank">TikTok</a>
-                        <a href="https://instagram.com/yourcarprints" target="_blank">Instagram</a>
-                    </div>
-                </div>
-            </header>
-
-            <section class="hero">
-                <h1>YOUR CAR PRINTS</h1>
-                <p class="tagline">Be Safe, Have Fun.</p>
-                <button class="cta-button" onclick="openContactModal()">Get In Touch</button>
-            </section>
-        </div>
-
-        <div id="contactModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeContactModal()">&times;</span>
-                <h2>Let's Connect</h2>
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="from_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="from_email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
-                    <div class="status-message" id="statusMessage"></div>
-                </form>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Your Car Prints. All rights reserved.</p>
-    </footer>
-
-    <script>
-        emailjs.init("Pbctw-6eSrIW2ugyg");
-
-        function openContactModal() {
-            document.getElementById("contactModal").classList.add("active");
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeContactModal() {
-            document.getElementById("contactModal").classList.remove("active");
-            document.body.style.overflow = "auto";
-            document.getElementById("contactForm").reset();
-            document.getElementById("statusMessage").textContent = "";
-            document.getElementById("statusMessage").className = "status-message";
-            document.getElementById("submitBtn").disabled = false;
-            document.getElementById("submitBtn").textContent = "Send Message";
-        }
-
-        document.getElementById("contactForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const submitBtn = document.getElementById("submitBtn");
-            const statusMessage = document.getElementById("statusMessage");
-
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Sending...";
-            statusMessage.className = "status-message";
-            statusMessage.textContent = "";
-
-            try {
-                await emailjs.sendForm(
-                    "service_janw4k8",
-                    "template_di7cjv4",
-                    document.getElementById("contactForm")
-                );
-
-                statusMessage.textContent = "Message sent! We'll get back to you soon.";
-                statusMessage.classList.add("success");
-
-                setTimeout(() => {
-                    closeContactModal();
-                }, 2000);
-            } catch (error) {
-                statusMessage.textContent = "Error sending message. Try again.";
-                statusMessage.classList.add("error");
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Send Message";
-            }
-        });
-
-        document.getElementById("contactModal").addEventListener("click", function(e) {
-            if (e.target === this) {
+            setTimeout(() => {
                 closeContactModal();
+            }, 2000);
+
+        } catch (error) {
+            console.error(error);
+            statusMessage.textContent = "Error sending message. Try again.";
+            statusMessage.classList.add("error");
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send Message";
+        }
+    });
+
+    document.getElementById("contactModal").addEventListener("click", function(e) {
+        if (e.target === this) {
+            closeContactModal();
+        }
+    });
+
+    // Optional: prevent-inspect stuff
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
+    document.addEventListener("keydown", (e) => {
+        if (
+            e.key === "F12" ||
+            (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key))
+        ) {
+            e.preventDefault();
+        }
+    });
+
+    // Snow effect
+    const canvas = document.getElementById("snowCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const snowflakes = [];
+
+    class Snowflake {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height - canvas.height;
+            this.radius = Math.random() * 2 + 0.5;
+            this.velocity = Math.random() * 0.8 + 0.3;
+            this.opacity = Math.random() * 0.6 + 0.2;
+            this.drift = Math.random() * 0.3 - 0.15;
+        }
+
+        update() {
+            this.y += this.velocity;
+            this.x += this.drift;
+
+            if (this.y > canvas.height) {
+                this.y = -10;
+                this.x = Math.random() * canvas.width;
             }
+        }
+
+        draw() {
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    for (let i = 0; i < 100; i++) snowflakes.push(new Snowflake());
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        snowflakes.forEach((s) => {
+            s.update();
+            s.draw();
         });
+        requestAnimationFrame(animate);
+    }
 
-        // Security measures
-        document.addEventListener("contextmenu", (e) => e.preventDefault());
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) || (e.metaKey && e.altKey && e.key === "I")) {
-                e.preventDefault();
-            }
-        });
+    animate();
 
-        // Snow animation
-        const canvas = document.getElementById("snowCanvas");
-        const ctx = canvas.getContext("2d");
-
+    window.addEventListener("resize", () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        const snowflakes = [];
-
-        class Snowflake {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height - canvas.height;
-                this.radius = Math.random() * 2 + 0.5;
-                this.velocity = Math.random() * 0.8 + 0.3;
-                this.opacity = Math.random() * 0.6 + 0.2;
-                this.drift = Math.random() * 0.3 - 0.15;
-            }
-
-            update() {
-                this.y += this.velocity;
-                this.x += this.drift;
-
-                if (this.y > canvas.height) {
-                    this.y = -10;
-                    this.x = Math.random() * canvas.width;
-                }
-                if (this.x < 0) this.x = canvas.width;
-                if (this.x > canvas.width) this.x = 0;
-            }
-
-            draw() {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 100; i++) {
-            snowflakes.push(new Snowflake());
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            snowflakes.forEach((snowflake) => {
-                snowflake.update();
-                snowflake.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
-</body>
-</html>
+    });
+</script>
