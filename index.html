@@ -1,342 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YourCarPrints</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YourCarPrints</title>
+  <style>
+    /* RESET */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; user-select: none; }
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
-            color: white;
-        }
+    body {
+      background: #0a0a0a;
+      color: #f5f5f5;
+      overflow-x: hidden;
+    }
 
-        body {
-            background: #0d0d0d;
-            overflow-x: hidden;
-        }
+    /* DARK LUXURY AESTHETIC */
+    .grain {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+      opacity: 0.08;
+      mix-blend-mode: soft-light;
+    }
 
-        /* Soft particle background canvas */
-        #bgCanvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-        }
+    header {
+      width: 100%;
+      padding: 40px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
 
-        .container {
-            position: relative;
-            z-index: 3;
-            text-align: center;
-            padding-top: 160px;
-        }
+    header h1 {
+      font-size: 1.4rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
 
-        h1 {
-            font-size: 4rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
+    nav a {
+      margin-left: 30px;
+      color: #dcdcdc;
+      text-decoration: none;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      transition: 0.3s;
+    }
 
-        .subtitle {
-            margin-top: 10px;
-            font-size: 1rem;
-            opacity: 0.5;
-            letter-spacing: 1px;
-        }
+    nav a:hover {
+      opacity: 1;
+    }
 
-        /* Social icons */
-        .socials {
-            margin-top: 50px;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            opacity: 0.85;
-        }
+    /* HERO */
+    .hero {
+      height: 88vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
 
-        .socials i {
-            font-size: 30px;
-            transition: 0.2s ease;
-        }
+    .hero h2 {
+      font-size: 3.5rem;
+      font-weight: 300;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
 
-        .socials i:hover {
-            opacity: 1;
-            transform: scale(1.15);
-        }
+    .hero p {
+      font-size: 1rem;
+      opacity: 0.7;
+      letter-spacing: 1px;
+    }
 
-        /* Get in Touch button */
-        .contact-btn {
-            margin-top: 60px;
-            padding: 14px 40px;
-            border: 1px solid white;
-            background: transparent;
-            cursor: pointer;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            transition: 0.2s ease;
-        }
+    /* SOCIALS */
+    .socials {
+      margin-top: 60px;
+      display: flex;
+      gap: 30px;
+      opacity: 0.8;
+    }
 
-        .contact-btn:hover {
-            background: white;
-            color: black;
-        }
+    .socials i {
+      font-size: 1.5rem;
+      transition: 0.3s;
+      cursor: pointer;
+    }
 
-        /* Modal */
-        .modal {
-            position: fixed;
-            inset: 0;
-            backdrop-filter: blur(8px);
-            background: rgba(0,0,0,0.75);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
+    .socials i:hover {
+      transform: scale(1.18);
+      opacity: 1;
+    }
 
-        .modal.active {
-            display: flex;
-        }
+    /* GET IN TOUCH */
+    .contact-btn {
+      margin-top: 70px;
+      padding: 14px 42px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: 0.3s;
+    }
 
-        .modal-content {
-            background: #111;
-            padding: 40px;
-            width: 90%;
-            max-width: 450px;
-            border-radius: 14px;
-            position: relative;
-            animation: fadeUp 0.3s ease;
-        }
+    .contact-btn:hover {
+      border-color: #fff;
+      transform: translateY(-3px);
+    }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      font-size: 0.8rem;
+      opacity: 0.6;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
 
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 10px;
-            cursor: pointer;
-            font-size: 22px;
-            opacity: 0.7;
-        }
-
-        .close:hover {
-            opacity: 1;
-        }
-
-        .modal-content h2 {
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 14px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 6px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 12px;
-            background: white;
-            color: black;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: 0.2s;
-        }
-
-        .submit-btn:hover {
-            background: #ddd;
-        }
-
-        .status {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        .footer {
-            margin-top: 120px;
-            text-align: center;
-            font-size: 0.8rem;
-            opacity: 0.5;
-        }
-    </style>
-
-    <!-- FontAwesome Icons -->
-    <script src="https://kit.fontawesome.com/a2d9d5a64b.js" crossorigin="anonymous"></script>
-
-    <!-- EmailJS Official Stable -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
-
 <body>
 
-<canvas id="bgCanvas"></canvas>
+  <div class="grain"></div>
 
-<div class="container">
-    <h1>be safe, have fun.</h1>
-    <p class="subtitle">yourcarprints © 2025</p>
+  <header>
+    <h1>YOURCARPRINTS</h1>
+
+    <nav>
+      <a href="#">home</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>be safe, have fun.</h2>
+    <p>premium custom automotive prints — built with style, delivered with care.</p>
 
     <div class="socials">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-x-twitter"></i></a>
-        <a href="#"><i class="fab fa-tiktok"></i></a>
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-x-twitter"></i>
+      <i class="fab fa-tiktok"></i>
     </div>
 
-    <button class="contact-btn" onclick="openModal()">Get in Touch</button>
+    <button class="contact-btn">get in touch</button>
+  </section>
 
-    <div class="footer">
-        Contact: 725-303-9951
-    </div>
-</div>
-
-<!-- CONTACT MODAL -->
-<div class="modal" id="contactModal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-
-        <h2>Send us a message</h2>
-
-        <form id="contactForm">
-            <input type="text" name="from_name" placeholder="Your Name" class="input-field" required>
-            <input type="email" name="reply_to" placeholder="Your Email" class="input-field" required>
-            <textarea name="message" placeholder="Your Message" class="input-field" rows="5" required></textarea>
-            <button class="submit-btn" id="submitBtn">Send</button>
-        </form>
-
-        <div class="status" id="status"></div>
-    </div>
-</div>
-
-<script>
-/* -------------------------
-   EmailJS Initialize
--------------------------- */
-emailjs.init("Pbctw-6eSrIW2ugyg"); // <-- use your REAL public key ONLY
-
-/* -------------------------
-   Modal Controls
--------------------------- */
-function openModal() {
-    document.getElementById("contactModal").classList.add("active");
-}
-
-function closeModal() {
-    document.getElementById("contactModal").classList.remove("active");
-}
-
-/* -------------------------
-   Email Sending
--------------------------- */
-document.getElementById("contactForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const btn = document.getElementById("submitBtn");
-    const status = document.getElementById("status");
-
-    btn.textContent = "Sending...";
-    btn.disabled = true;
-    status.textContent = "";
-
-    try {
-        await emailjs.sendForm(
-            "service_janw4k8",
-            "template_di7cjv4",
-            "#contactForm"
-        );
-
-        status.textContent = "Message sent!";
-        status.style.color = "#0aff0a";
-
-        setTimeout(() => {
-            closeModal();
-            btn.textContent = "Send";
-            btn.disabled = false;
-            status.textContent = "";
-            document.getElementById("contactForm").reset();
-        }, 1500);
-
-    } catch (err) {
-        status.textContent = "Failed to send. Check EmailJS.";
-        status.style.color = "#ff4444";
-        btn.textContent = "Send";
-        btn.disabled = false;
-    }
-});
-
-/* -------------------------
-   Particle Background
--------------------------- */
-const canvas = document.getElementById("bgCanvas");
-const ctx = canvas.getContext("2d");
-
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-
-let particles = [];
-
-class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-    }
-
-    update(mouse) {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (mouse) {
-            const dx = this.x - mouse.x;
-            const dy = this.y - mouse.y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
-            if (dist < 120) {
-                this.x += dx * 0.02;
-                this.y += dy * 0.02;
-            }
-        }
-
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-    }
-
-    draw() {
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(255,255,255,0.15)";
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
-
-for (let i = 0; i < 120; i++) particles.push(new Particle());
-
-let mouse = null;
-window.addEventListener("mousemove", e => {
-    mouse = { x: e.clientX, y: e.clientY };
-});
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => { p.update(mouse); p.draw(); });
-    requestAnimationFrame(animate);
-}
-animate();
-
-window.addEventListener("resize", () => {
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-});
-</script>
+  <footer>
+    © yourcarprints 2025 • contact: 725-303-9951
+  </footer>
 
 </body>
 </html>
