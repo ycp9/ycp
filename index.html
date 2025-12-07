@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>YourCarPrints</title>
+  <title>YourCarPrints — Dark Luxury</title>
   <meta name="color-scheme" content="dark">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -65,7 +65,8 @@
     .modal-wrap.show{display:flex}
     .modal-panel{width:420px;max-width:92%;background:linear-gradient(180deg,#0b0b0b,#0d0d0d);border-left:1px solid rgba(255,255,255,0.03);padding:28px;border-radius:12px;box-shadow:-30px 40px 120px rgba(0,0,0,0.8);transform:translateX(20px);opacity:0;transition:transform .34s cubic-bezier(.2,.9,.2,1),opacity .34s}
     .modal-wrap.show .modal-panel{transform:none;opacity:1}
-    .close-panel{position:absolute;right:18px;top:14px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:22px;line-height:1;}
+    .close-panel{position:absolute;top:10px;right:10px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:26px;line-height:1;z-index:20;}
+@media(max-width:600px){.close-panel{top:6px;right:6px;font-size:22px;}}
     .panel h3{font-family:'Playfair Display',serif;margin-bottom:6px}
     .panel p{opacity:.7;margin-bottom:14px}
     .form-field{margin:10px 0}
